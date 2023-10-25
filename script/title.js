@@ -21,14 +21,32 @@ const Title = (() => {
         dial().close()
     }
 
-    const changeDis1 = () => {
-        player1ColDis.textContent = player1ColDis.textContent == 'Red' ? 'Yellow' : 'Red'
-    }
-    const changeDis2 = () => {
-        player1ColDis.textContent = player1ColDis.textContent == 'Yellow' ? 'Red' : 'Yellow'
+    const changeDis = (colDis1, colDis2) => {
+        colDis1().textContent = colDis1().textContent == 'Red' ? 'Yellow' : 'Red'
+        if(colDis2()){
+            colDis2().textContent = colDis2().textContent == 'Yellow' ? 'Red' : 'Yellow'
+        }
     }
 
-    const getData = () => {
-        
+    const getData = (player1Col, getDifficulty) => {
+        let color1 = player1Col().checked ? 'Red' : 'Yellow'
+        let color2 = player1Col().checked ? 'Yellow' : 'Red'
+        let difficulty = getDifficulty()
+        if(!difficulty){
+            return {
+                color:[color1, color2],
+                difficulty
+            }
+        }
+        for(dif of difficulty){
+            if(dif.checked){
+                difficulty = dif.value
+                break
+            }
+        }
+        return {
+            color:[color1, color2],
+            difficulty
+        }
     }
 })()
