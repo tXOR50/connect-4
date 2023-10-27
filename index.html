@@ -2,30 +2,66 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/png" href="/Logo1.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script defer type="module" src="./main.js"></script>
-    <title>Vite App</title>
+    <title>Connect 4</title>
   </head>
   <body>
+    <dialog class="halo">
+        <div class="ai-modal">
+            <button class="close-btn">
+                <i class="fa-solid fa-x"></i>
+            </button>
+            <h3 class="comp-modal-title">Computer</h3>
+            <form class="ai-modal-form">
+                <div class="selection">
+                    <h5>Play As</h5>
+                    <div class="toggle-switch-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" name="color" id="p1col" class="color-toggle">
+                            <span class="slider"></span>
+                        </label>
+                        <label for="p1col" class="color-toggle-label">Red</label>
+                    </div>
+                    <div class="toggle-switch-container">
+                        <label class="toggle-switch">
+                            <input type="checkbox" name="color" id="p1col" class="color-toggle">
+                            <span class="slider"></span>
+                        </label>
+                        <label for="p1col" class="color-toggle-label">Red</label>
+                    </div>
+    
+                    <label class="difficulty-switch">
+                        <input type="radio" value="easy" class="dif" name="dif" id="easy">
+                        <label for="easy" class="wrapper" id="w-easy">Easy</label>
+                        <input type="radio" value="medium" class="dif" name="dif" id="medium">
+                        <label for="medium" class="wrapper" id="w-medium">Medium</label>
+                        <input type="radio" value="hard" class="dif" name="dif" id="hard">
+                        <label for="hard" class="wrapper" id="w-hard">Hard</label>
+                    </label>
+                </div>
+                <input type="submit" class="submit" id="sbt-btn" value="Play">
+            </form>
+        </div>
+    </dialog>
     <div id="app">
-      <dialog>
-        <button id="close-dial-btn">Close</button>
-        <form>
-          <input type="checkbox" id="p1col">
-          <label for="p1col">Red</label>
-          <input type="checkbox" id="p2col">
-          <label for="p2col">Yellow</label>
-          <input type="radio" name="dif" value="easy">
-          <input type="radio" name="dif" value="medium">
-          <input type="radio" name="dif" value="hard">
-          <input type="submit" id="sbt-btn">
-        </form>
-      </dialog>
-
-      <button class="btn-ai">AI</button>
-      <button class="btn-mul">Mul</button>
+      <div class="main-home">
+        <h1 class="game-title">Connect 4</h1>
+        <div class="logo-container">
+            <img class="logo" src="Logo1.png" alt="logo">
+        </div>
+        <div class="play-button">
+            <button class="ai-btn btn">Computer</button>
+            <button class="multi-btn btn">Multiplayer</button>
+            <button class="Rules-btn btn">Rules</button>
+        </div>
+    </div>
     </div>
   </body>
 </html>

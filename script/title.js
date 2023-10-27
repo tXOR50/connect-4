@@ -34,6 +34,8 @@ const Title = (() => {
         let difficulty = getDifficulty()
         if(difficulty[0].style.display === 'none'){
             return {
+                player1: 'Player 1',
+                player2: 'Player 2',
                 color:[color1, color2],
                 difficulty: null
             }
@@ -45,6 +47,8 @@ const Title = (() => {
             }
         }
         return {
+            player1: 'Player 1',
+            player2: 'Bot',
             color:[color1, color2],
             difficulty
         }

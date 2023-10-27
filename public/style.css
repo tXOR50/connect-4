@@ -1,3 +1,290 @@
-#app{
-  color: red;
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Set core body defaults */
+body {
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* general styling */
+body{
+  font-family: 'Chakra Petch', sans-serif;
+  font-weight: 400;
+}
+dialog{
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  border-radius: 4rem;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+h3{
+font-size: 3rem;
+font-weight: 700;
+color: #2c2f2c;
+}
+
+h5{
+font-size: 1.5rem;
+color: #2c2f2c;
+}
+/* content-title */
+.main-home{
+    min-height: 100vh;
+    width: auto;
+    background-color: #FFD659;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    grid-template-rows: max-content auto;
+}
+
+/* top-sect */
+.logo-container{
+  width: 100px;
+  min-height: auto;
+  /* margin-top: 6rem; */
+}
+.game-title{
+  margin:.5rem 0 0 1rem;
+  justify-self: flex-start;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: white;
+}
+/* play-btn */
+.play-button{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn{
+    padding: .45rem 1.8rem;
+    background-color: #ffffff;
+    border: 4px solid #f9ecc1;
+    border-radius: 4rem;
+    color: #f9ecc1;
+    font-size: 24px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1), -1px -1px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 300ms, box-shadow 300ms;
+}
+
+.btn:hover{
+    transform: scale(1.03);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px rgba(0, 0, 0, 0.1);
+    background-color: rgba(245, 202, 70, 0.9);
+}
+.btn:active{
+    transform: scale(0.95);
+}
+/* Title Screen Modal */
+.ai-modal{
+  width: 20rem;
+  height: 30rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  color: whitesmoke;
+}
+
+.ai-modal-form{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 2.5rem;
+  margin-top: 1.7rem;
+}
+
+.selection{
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 1rem;
+font-size: .8rem;
+}
+
+.submit{
+padding: .5rem 1.4rem;
+background-color: #ffffff;
+border: 4px solid #f9ecc1;
+border-radius: 4rem;
+color: #f9ecc1;
+font-weight: 700;
+cursor: pointer;
+box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1), -1px -1px 5px rgba(0, 0, 0, 0.1);
+transition: transform 300ms, box-shadow 300ms;
+}
+
+.submit:hover{
+transform: scale(1.03);
+box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1), -5px -5px 15px rgba(0, 0, 0, 0.1);
+background-color: rgba(245, 202, 70, 0.9);
+}
+.submit:active{
+transform: scale(0.95);
+}
+
+.close-btn{
+background-color: rgba(255, 255, 255, 0);
+display: flex;
+justify-content: center;
+align-items: center;
+border-radius: 50%;
+width: 2.5rem;
+height: 2.5rem;
+border: 3px solid #2c2f2c;
+padding: 0;
+color: #2c2f2c;
+font-size: 18px;
+cursor: pointer;
+margin-top: 2rem;
+}
+/* toggle switch */
+.toggle-switch-container{
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+.toggle-switch{
+  position: relative;
+  width: 5rem;
+  display: inline-block;
+  min-height: 2.5rem;
+}
+
+.color-toggle-label{
+color: #2c2f2c;
+}
+
+.toggle-switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background-color: #e9e76d;
+  transition: background-color 400ms;
+  cursor: pointer;
+  border-radius: 4rem;
+}
+
+.slider::before{
+  content: '';
+  position: absolute;
+  height: 2rem;
+  width: 2rem;
+  background-color: white;
+  left: 4px;
+  bottom: 4px;
+  transition: transform 400ms;
+  border-radius: 4rem;
+}
+
+input:checked + .slider {
+  background-color: #f8534e;
+}
+
+input:focus + .slider{
+  box-shadow: 5px 5px 10px rgba(0 0 0 / .1);
+}
+
+input:checked + .slider::before{
+  transform: translateX(2.5rem);
+}
+
+/* difficulty switch */
+.difficulty-switch{
+display: inline-flex;
+overflow: hidden;
+border-radius: 1rem;
+}
+
+.dif{
+display: none;
+}
+
+.wrapper{
+padding: .8rem;
+background-color: #2c2f2c;
+transform: background-color 300ms;
+cursor: pointer;
+}
+
+.dif:checked + #w-easy{
+background-color: #79AC78;
+}
+.dif:checked + #w-medium{
+background-color: #e9e76d;
+}
+.dif:checked + #w-hard{
+background-color: #f8534e;
 }
