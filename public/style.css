@@ -206,7 +206,8 @@ margin-top: 2rem;
 .toggle-switch-container{
 display: flex;
 align-items: center;
-gap: 1rem;
+justify-content: space-between;
+min-width: 132px;
 }
 .toggle-switch{
   position: relative;

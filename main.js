@@ -5,8 +5,11 @@ const DOMtitle = () => {
         mulBtn: document.querySelector('.mul-btn'),
         aiBtn: document.querySelector('.ai-btn'),
         dialog:  document.querySelector('dialog'),
-        closeDialBtn:  document.querySelector('#close-dial-btn'),
+        closeDialBtn:  document.querySelector('.close-btn'),
         submitBtn:  document.querySelector('#sbt-btn'),
+        player2ColCont:  document.querySelector('#t-s-cont-p2'),
+        difCont:  document.querySelector('.difficulty-switch'),
+        dialTitle:  document.querySelector('.comp-modal-title'),
         player2Col:  () => document.querySelector('#p2col'),
         player1Col: () => document.querySelector('#p1col'),
         player1ColDis: () => document.querySelector('[for="p1col"]'),
@@ -16,18 +19,18 @@ const DOMtitle = () => {
 }
 
 const TitleScreenController = (() => {
-    const {aiBtn, mulBtn, dialog, closeDialBtn, submitBtn, player2Col, player1Col, player1ColDis, player2ColDis, difficulty} = DOMtitle()
+    const {aiBtn, mulBtn, dialog, closeDialBtn, submitBtn, player2ColCont, difCont, dialTitle, player2Col, player1Col, player1ColDis, player2ColDis, difficulty} = DOMtitle()
     let gameData
 
-    aiBtn.addEventListener('click', () => Title.openDialog(dialog, true, difficulty, player2Col, player2ColDis))
-    mulBtn.addEventListener('click', () => Title.openDialog(dialog, false, difficulty, player2Col, player2ColDis))
+    aiBtn.addEventListener('click', () => Title.openDialog(dialog, true, difCont, player2ColCont, dialTitle))
+    mulBtn.addEventListener('click', () => Title.openDialog(dialog, false, difCont, player2ColCont, dialTitle))
     closeDialBtn.addEventListener('click', () => Title.closeDialog(dialog))
     player1Col().addEventListener('click', () => Title.changeDis(player1Col, player2Col, player1ColDis, player2ColDis, true))
     player2Col().addEventListener('click', () => Title.changeDis(player1Col, player2Col, player1ColDis, player2ColDis, false))
     submitBtn.addEventListener('click', (e) => {
-        gameData = Title.getData(player1Col, difficulty, e)
+        gameData = Title.getData(player1Col, difficulty, difCont, e)
+        console.log(gameData)
     })
-
     return{gameData}
 })()
 
@@ -42,7 +45,7 @@ const GameBoard = (() => {
     for(let i = 0; i < 7; i++){
         Board[i] =  []
         for (let j = 0; j < 6; j++) {
-            Board[i][j].push(cell())
+            Board[i].push(cell())
         }
     }
 
@@ -70,7 +73,7 @@ const GameBoard = (() => {
 })()
 
 const GameController = (() => {
-    const Player = [
+    const getPlayer = () => [
         {
             player: TitleScreenController.gameData.player1,
             color: TitleScreenController.gameData.color[0],
@@ -82,13 +85,17 @@ const GameController = (() => {
             token: 'X'
         },
     ]
-    let playerTurn = Player[0]
 
-    const changeTurn = () => {playerTurn = playerTurn === Player[0] ? Player[1] : Player[0]}
+    let getPlayerTurn = (Player) => {let playerTurn = Player[0]}
+    const changeTurn = (playerTurn, Player) => {playerTurn = playerTurn === Player[0] ? Player[1] : Player[0]}
 
-    const Play = (col) => {
-        GameBoard.markCell(col,playerTurn.token)
-        changeTurn()
+    const Game = (col) => {
+        const Player = getPlayer()
+        let playerTurn = getPlayerTurn(Player)
+        const Play = () => {
+            GameBoard.markCell(col,playerTurn.token)
+            changeTurn(playerTurn, Player)
+        }
     }
     
 })()

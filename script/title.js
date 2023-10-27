@@ -1,19 +1,15 @@
 const Title = (() => {
-    const openDialog = (dial, isAiDial, getDifficulty, p2col, p2dis) => {
+    const openDialog = (dial, isAiDial, difCont, p2colCont, dialTitle) => {
         if(isAiDial){
-            getDifficulty().forEach(dif => {
-                dif.style.display = 'block'
-            });
-            p2col().style.display = 'none'
-            p2dis().style.display = 'none'
+            dialTitle.textContent = 'Computer'
+            difCont.style.display = 'inline-flex'
+            p2colCont.style.display = 'none'
             dial.showModal()
             return
         }
-        getDifficulty().forEach(dif => {
-            dif.style.display = 'none'
-        });
-        p2col().style.display = 'block'
-        p2dis().style.display = 'block'
+        dialTitle.textContent = 'Multiplayer'
+        difCont.style.display = 'none'
+        p2colCont.style.display = 'flex'
         dial.showModal()
     }
     const closeDialog = (dial) => {
@@ -21,18 +17,18 @@ const Title = (() => {
     }
 
     const changeDis = (p1, p2, colDis1, colDis2, isP1) => {
-        if(isP1){p2().checked = false}
-        else {p1().checked = false}
+        if(isP1){p2().checked = !p1().checked;}
+        else {p1().checked = !p2().checked;}
         colDis1().textContent = colDis1().textContent == 'Red' ? 'Yellow' : 'Red'
         colDis2().textContent = colDis2().textContent == 'Yellow' ? 'Red' : 'Yellow'
     }
 
-    const getData = (player1Col, getDifficulty, event) => {
+    const getData = (player1Col, getDifficulty, difCont, event) => {
         event.preventDefault()
         let color1 = player1Col().checked ? 'Red' : 'Yellow'
         let color2 = player1Col().checked ? 'Yellow' : 'Red'
         let difficulty = getDifficulty()
-        if(difficulty[0].style.display === 'none'){
+        if(difCont.style.display === 'none'){
             return {
                 player1: 'Player 1',
                 player2: 'Player 2',
