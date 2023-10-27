@@ -2,6 +2,7 @@ import Title from './script/title.js'
 
 const DOMtitle = () => {
     return{
+        titleCont: document.querySelector('.main-home'),
         mulBtn: document.querySelector('.mul-btn'),
         aiBtn: document.querySelector('.ai-btn'),
         dialog:  document.querySelector('dialog'),
@@ -19,7 +20,7 @@ const DOMtitle = () => {
 }
 
 const TitleScreenController = (() => {
-    const {aiBtn, mulBtn, dialog, closeDialBtn, submitBtn, player2ColCont, difCont, dialTitle, player2Col, player1Col, player1ColDis, player2ColDis, difficulty} = DOMtitle()
+    const {titleCont, aiBtn, mulBtn, dialog, closeDialBtn, submitBtn, player2ColCont, difCont, dialTitle, player2Col, player1Col, player1ColDis, player2ColDis, difficulty} = DOMtitle()
     let gameData
 
     aiBtn.addEventListener('click', () => Title.openDialog(dialog, true, difCont, player2ColCont, dialTitle))
@@ -28,7 +29,9 @@ const TitleScreenController = (() => {
     player1Col().addEventListener('click', () => Title.changeDis(player1Col, player2Col, player1ColDis, player2ColDis, true))
     player2Col().addEventListener('click', () => Title.changeDis(player1Col, player2Col, player1ColDis, player2ColDis, false))
     submitBtn.addEventListener('click', (e) => {
-        gameData = Title.getData(player1Col, difficulty, difCont, e)
+        gameData = Title.getData(player1Col, difficulty, difCont, dialog, e)
+        Title.displayGame(titleCont)
+        Title.createBoard()
         console.log(gameData)
     })
     return{gameData}
@@ -97,6 +100,6 @@ const GameController = (() => {
             changeTurn(playerTurn, Player)
         }
     }
-    
+    return {Game}
 })()
 

@@ -23,12 +23,31 @@ const Title = (() => {
         colDis2().textContent = colDis2().textContent == 'Yellow' ? 'Red' : 'Yellow'
     }
 
-    const getData = (player1Col, getDifficulty, difCont, event) => {
+    const displayGame = (titleCont) => {
+        titleCont.style.display = 'none'
+        document.querySelector('.main-game').style.display = 'grid'
+    }
+
+    const createBoard = () => {
+        let fragment = document.createDocumentFragment()
+        for(let i = 0; i < 42; i++){
+            let square = document.createElement('div')
+            square.classList.add('square')
+            let cell = document.createElement('div')
+            cell.classList.add('cell')
+            square.append(cell)
+            fragment.append(square)
+        }
+        document.querySelector('.board').append(fragment)
+    }
+
+    const getData = (player1Col, getDifficulty, difCont, dial, event) => {
         event.preventDefault()
         let color1 = player1Col().checked ? 'Red' : 'Yellow'
         let color2 = player1Col().checked ? 'Yellow' : 'Red'
         let difficulty = getDifficulty()
         if(difCont.style.display === 'none'){
+            closeDialog(dial)
             return {
                 player1: 'Player 1',
                 player2: 'Player 2',
@@ -42,6 +61,7 @@ const Title = (() => {
                 break
             }
         }
+        closeDialog(dial)
         return {
             player1: 'Player 1',
             player2: 'Bot',
@@ -54,6 +74,8 @@ const Title = (() => {
         openDialog,
         closeDialog,
         changeDis,
+        displayGame,
+        createBoard,
         getData
     }
 })()
