@@ -63,3 +63,28 @@ export const GameController = (() => {
     }
     return {Game}
 })()
+
+export const GameScreen = (() => {
+    const displayGame = (titleCont) => {
+        titleCont.style.display = 'none'
+        document.querySelector('.main-game').style.display = 'grid'
+    }
+
+    const createBoard = () => {
+        let fragment = document.createDocumentFragment()
+        for(let i = 0; i < 42; i++){
+            let square = document.createElement('div')
+            square.classList.add('square')
+            let cell = document.createElement('div')
+            cell.classList.add('cell')
+            square.append(cell)
+            fragment.append(square)
+        }
+        document.querySelector('.board').append(fragment)
+    }
+
+    return{
+        displayGame,
+        createBoard
+    }
+})()

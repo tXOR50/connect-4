@@ -23,24 +23,6 @@ const Title = (() => {
         colDis2().textContent = colDis2().textContent == 'Yellow' ? 'Red' : 'Yellow'
     }
 
-    const displayGame = (titleCont) => {
-        titleCont.style.display = 'none'
-        document.querySelector('.main-game').style.display = 'grid'
-    }
-
-    const createBoard = () => {
-        let fragment = document.createDocumentFragment()
-        for(let i = 0; i < 42; i++){
-            let square = document.createElement('div')
-            square.classList.add('square')
-            let cell = document.createElement('div')
-            cell.classList.add('cell')
-            square.append(cell)
-            fragment.append(square)
-        }
-        document.querySelector('.board').append(fragment)
-    }
-
     const getData = (player1Col, getDifficulty, difCont, dial, event) => {
         event.preventDefault()
         let color1 = player1Col().checked ? 'Red' : 'Yellow'

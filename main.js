@@ -1,5 +1,5 @@
 import Title from './script/title.js'
-import {GameBoard, GameController} from './script/game.js'
+import {GameBoard, GameController, GameScreen} from './script/game.js'
 
 const DOMtitle = () => {
     return{
@@ -31,11 +31,13 @@ const TitleScreenController = (() => {
     player2Col().addEventListener('click', () => Title.changeDis(player1Col, player2Col, player1ColDis, player2ColDis, false))
     submitBtn.addEventListener('click', (e) => {
         gameData = Title.getData(player1Col, difficulty, difCont, dialog, e)
-        Title.displayGame(titleCont)
-        Title.createBoard()
+        GameScreen.displayGame(titleCont)
+        GameScreen.createBoard()
         console.log(gameData)
     })
     return{gameData}
 })()
 
-
+const GameScreenController = (() => {
+    
+})()
