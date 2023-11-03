@@ -56,8 +56,6 @@ const Title = (() => {
         openDialog,
         closeDialog,
         changeDis,
-        displayGame,
-        createBoard,
         getData
     }
 })()

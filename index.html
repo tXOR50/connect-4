@@ -63,28 +63,27 @@
         </div>
       </div>
       <div class="main-game">
-        <nav>
-            <div></div>
-            <img src="Connect-logo.png" alt="Connect-4" class="logo">
-            <div class="nav-btn">
-                <i class="fa-solid fa-rotate-left" style="color: #79ac78;"></i>
-                <i class="fa-solid fa-arrow-left-long" style="color: #79ac78;"></i>
+        <div class="sidebar">
+            <i class="fa-solid fa-igloo"></i>
+            <i class="fa-solid fa-rotate-left"></i>
+            <i class="fa-solid fa-pause"></i>
+        </div>
+        <div class="game-cont">
+            <div class="logo-cont-game">
+                <img src="Logo1.png" alt="Connect-4" class="logo">
             </div>
-        </nav>
-        <div class="game-content">
-            <div class="board-container">
-                <h1>Player 1's Turn</h1>
-                <div class="board">
+            <div class="game-content">
+                <div class="clock-cont">
+                    <span class="clock">00:20</span>
+                </div>
+                <div class="board" id="board"></div>
+                <div class="player-side">
+                    <h2 class="player" id="player1">Player 1</h2>
+                    <div class="underline"></div>
+                    <h2 class="player" id="player2">Player 2</h2>
                 </div>
             </div>
-            <div class="sidebar">
-                <h2 class="player1">Player 1</h2>
-                <h2 class="player1-score">11</h2>
-                <h2 class="player2">Player 2</h2>
-                <h2 class="player2-score">29</h2>
-            </div>
         </div>
-    </div>
     </div>
   </body>
 </html>
