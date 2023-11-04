@@ -36,7 +36,3 @@ const TitleScreenController = (() => {
     })
     return{gameData}
 })()
-
-const GameScreenController = (() => {
-    
-})()

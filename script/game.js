@@ -142,6 +142,43 @@ export const GameScreen = (() => {
         }
         document.querySelector('.board').append(fragment)
     }
+    const timer = () => {
+        let countDown = 19
+        const clock = document.querySelector('.clock')
+        const clockInterval = setInterval(() => {
+            clock.textContent = countDown > 9 ? `00:${countDown}` : `00:0${countDown}` 
+            if (!countDown) {
+                clearInterval(clockInterval)
+            }
+            countDown--
+        }, 1000);
+        return {clockInterval, countDown}
+    }
+    const gameNav = (cells, Time) => {
+        const home = document.querySelector('.home')
+        const reset = document.querySelector('.reset')
+        const pause = document.querySelector('.pause')
+
+        const resetScreenBoard = () => {
+            GameBoard.resetBoard()
+            cells.forEach(cell => {
+                cell.classList.remove('cell-Red')
+                cell.classList.remove('cell-Yellow')
+            })
+        }
+        const backHome = () => {
+            resetScreenBoard()
+            const mainGame = document.querySelector('.main-game')
+            const mainHome = document.querySelector('.main-home')
+            mainGame.style.display = 'none'
+            mainHome.style.display = 'grid'
+        }
+        const pauseScreen = () => {
+            if(pause.classList.contains('fa-pause')){
+                
+            }
+        }
+    }
 
     const init = (titleCont, getCells, gameData) => {
         displayGame(titleCont)
@@ -149,7 +186,8 @@ export const GameScreen = (() => {
         const cellEventHandler = (() => {
             const cells = getCells()
             const Game = GameController.game(gameData)
-            const turnDisplay = document.querySelector('.board-container > h1')
+            const Time = timer()
+            const GameNav = gameNav(cells, Time)
 
             const endGame = () => {console.log('WON')}
             const changeTurnDis = () => {
