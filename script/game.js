@@ -26,7 +26,7 @@ export const GameBoard = (() => {
 
     const markCell = (col,token) =>{
         let availableRow = checkRow(col)
-        if(Board[availableRow][col].getValue() !== '0') return
+        if(availableRow <= -1) return 'stop'
         Board[availableRow][col].addMark(token)
         return availableRow
     }
@@ -68,7 +68,10 @@ export const GameController = (() => {
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row][col + 1].getValue() && 
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row][col + 2].getValue() &&
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row][col + 3].getValue()) {
-                        return GameBoard.getBoard()[row][col].getValue()
+                        return {
+                            rows: [row, row, row, row],
+                            cols: [col, col+1, col+2, col+3]
+                        }
                     }
             }
         }
@@ -80,7 +83,10 @@ export const GameController = (() => {
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 1][col].getValue() && 
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 2][col].getValue() &&
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 3][col].getValue()) {
-                        return GameBoard.getBoard()[row][col].getValue()
+                        return {
+                            rows: [row, row+1, row+2, row+3],
+                            cols: [col, col, col, col]
+                        }
                     }
             }
         }
@@ -92,7 +98,10 @@ export const GameController = (() => {
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 1][col + 1].getValue() && 
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 2][col + 2].getValue() &&
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 3][col + 3].getValue()) {
-                        return GameBoard.getBoard()[row][col].getValue()
+                        return {
+                            rows: [row, row+1, row+2, row+3],
+                            cols: [col, col+1, col+2, col+3]
+                        }
                     }
             }
         }
@@ -104,7 +113,10 @@ export const GameController = (() => {
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row - 1][col + 1].getValue() && 
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row - 2][col + 2].getValue() &&
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row - 3][col + 3].getValue()) {
-                        return GameBoard.getBoard()[row][col].getValue()
+                        return {
+                            rows: [row, row-1, row-2, row-3],
+                            cols: [col, col+1, col+2, col+3]
+                        }
                     }
             }
         }
@@ -116,10 +128,11 @@ export const GameController = (() => {
         let playerTurn = getPlayerTurn(Player)
         const play = (col) => {
             let row = GameBoard.markCell(col,playerTurn.token)
+            if (row === 'stop') { return {unavailRow: true}}
             playerTurn = changeTurn(playerTurn, Player)
-            let isWin = checkWin()
-            if (isWin) {
-                return {row, playerTurn, isWin}
+            let winCell = checkWin()
+            if (winCell) {
+                return {row, playerTurn, winCell}
             }
             return {row, playerTurn}
         }
@@ -223,9 +236,14 @@ export const GameScreen = (() => {
         const reset = document.querySelector('.reset')
         const pause = document.querySelector('.pause')
 
-        const resetScreenBoard = () => {
-            Time.pauseTimer()
+        const resetScreenBoard = (popUp) => {
+            enableBoard()
+            if (!popUp) {
+                Time.pauseTimer()
+                Time.startTimer().resetTimer()
+            }
             Time.startTimer().resetTimer()
+            Time.pauseTimer()
             GameBoard.resetBoard()
             playerTurnDis().fClearUnderline('player2')
             playerTurnDis().fClearUnderline('player1')
@@ -238,9 +256,12 @@ export const GameScreen = (() => {
         const backHome = () => {
             const mainGame = document.querySelector('.main-game')
             const mainHome = document.querySelector('.main-home')
+            const dropContent = document.querySelector('.drop-content')
             mainGame.style.display = 'none'
+            dropContent.style.display = 'none'
             mainHome.style.display = 'grid'
             terminateBoard()
+            GameBoard.resetBoard()
         }
         const pauseScreenSide = () => {
             if(pauses.classList.contains('fa-pause')){
@@ -267,7 +288,7 @@ export const GameScreen = (() => {
         }
 
         home.addEventListener('click', backHome)
-        reset.addEventListener('click', resetScreenBoard)
+        reset.addEventListener('click', () => resetScreenBoard(true))
         pause.addEventListener('click', pauseScreen)
         homes.addEventListener('click', backHome)
         resets.addEventListener('click', resetScreenBoard)
@@ -287,7 +308,14 @@ export const GameScreen = (() => {
             playerTurnAnimation.displayUnderline('player1')
             Time.startTimer()
             
-            const endGame = () => {console.log('WON')}
+            const endGame = (cells) => {
+                for (let i = 0; i < 4; i++) {
+                    let cell = document.querySelector(`[data-col="${cells.cols[i]}"][data-row="${cells.rows[i]}"]`)
+                    cell.classList.add('cell-win')
+                }
+                disableBoard()
+                Time.pauseTimer()
+            }
             const addColor = (col, game) => {
                 let cell = document.querySelector(`[data-col="${col}"][data-row="${game.row}"]`)
                 cell.classList.add(`cell-${game.playerTurn.color}`)
@@ -304,9 +332,12 @@ export const GameScreen = (() => {
                     if (Time.getTime() === '00:00') {
                         const col = Math.floor(Math.random() * 7);
                         const game = Game.play(col);
+                        if (game.unavailRow) {
+                            return 0
+                        }
                         addColor(col,game);
-                        if(game.isWin){
-                            endGame();
+                        if(game.winCell){
+                            return endGame(game.winCell)
                         }
                         turnAnimation(game);
                     }
@@ -316,9 +347,12 @@ export const GameScreen = (() => {
             const cellClickHandler = (e) => {
                 const col = e.target.dataset.col
                 const game = Game.play(col)
+                if (game.unavailRow) {
+                    return 0
+                }
                 addColor(col,game)
-                if(game.isWin){
-                    endGame()
+                if(game.winCell){
+                    return endGame(game.winCell)
                 }
                 turnAnimation(game)
             }

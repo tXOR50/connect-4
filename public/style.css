@@ -412,13 +412,17 @@ background-color: #f8534e;
   border: none;
   border-radius: 50%;
   cursor: pointer;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 500ms, border 500ms;
 }
 .cell-Red{
   background-color: #f8534e;
 }
 .cell-Yellow{
   background-color: #79AC78;
+}
+.cell-win{
+  transform: scale(1.25);
+  border: 3px solid #2c2f2c;
 }
 .disabled{
   pointer-events: none;
@@ -484,6 +488,12 @@ background-color: #f8534e;
     top: 1rem;
     right: 1rem;
     color: #fff;
+    padding: 0 12.5px;
+    border-radius: 50%;
+    transition: background-color 300ms;
+  }
+  .main-game > .menu:hover{
+    background-color: rgb(255, 230, 154)
   }
   .menu-btn{
     cursor: pointer;
@@ -504,6 +514,7 @@ background-color: #f8534e;
     transition: transform 300ms, color 300ms;
   }
   .drop-content > i:hover{
+    cursor: pointer;
     color: #FFD659;
     transform: scale(1.05);
   }
