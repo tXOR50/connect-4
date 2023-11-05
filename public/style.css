@@ -341,10 +341,20 @@ background-color: #f8534e;
   text-align: center;
   width: 50px;
   height: 50px;
-  background-color: #e9e76d;
+  background-color: #f9ecc1;
+  box-shadow: 2px 2px 5px rgba(0 0 0 / .1);
+  transition: transform 300ms, box-shadow 300ms, font-size 300ms;
   padding: .5rem;
   border-radius: 15px;
   cursor: pointer;
+}
+.nav-cont:hover{
+  font-size: 2.2rem;
+  transform: scale(1.03);
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), -2px -2px 5px rgba(0, 0, 0, 0.1);
+}
+.nav-cont:active{
+  transform: scale(0.95);
 }
 .game-content{
   display: grid;
@@ -437,13 +447,18 @@ background-color: #f8534e;
       position: relative;
   }
   .logo-cont-game{
-      margin: 3rem 0;
+      margin: 1rem 0;
+  }
+  .logo-cont-game > img{
+    width: 55px;
+    height: 55px;
   }
   .sidebar{
       display: none;
   }
   .board-cont{
-    grid-row-start: 1;   
+    grid-row-start: 1;
+    margin-top: 1rem;   
   } 
   .player-side{
     flex-direction: row;
@@ -451,6 +466,12 @@ background-color: #f8534e;
     grid-row-start: 2;
     justify-content: space-between;
     gap: 0;
+  }
+  .player{
+    font-size: 1.8rem;
+  }
+  .clock{
+    font-size: 1.8rem;
   }
   .clock-cont{
     justify-self: center;
@@ -470,25 +491,43 @@ background-color: #f8534e;
   .drop-content{
     display: none;
     position: absolute;
-    background-color: rgb(112, 223, 112);
+    background-color: #fff;
+    color: #f9ecc1;
+    border-radius: 15px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     padding: 1rem 1.5rem;
     right: 1rem;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
     text-align: center;
+    transition: transform 300ms, color 300ms;
   }
-
+  .drop-content > i:hover{
+    color: #FFD659;
+    transform: scale(1.05);
+  }
   .drop-content-style{
     display: flex;
     flex-direction: column;
     gap: 1rem;
     text-align: center;
   }
+  .underline{
+    height: 3px;
+  }
 }
 
 @media (max-width : 500px) {
+  .player{
+    font-size: 1.5rem;
+  }
+  .clock{
+    font-size: 1.5rem;
+  }
+  .game-content{
+    margin-top: 2rem;
+  }
   .board{
       grid-template-columns: repeat(7, 35px);
       grid-template-rows: repeat(6, 35px);   
