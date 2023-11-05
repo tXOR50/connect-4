@@ -31,8 +31,8 @@ const Title = (() => {
         if(difCont.style.display === 'none'){
             closeDialog(dial)
             return {
-                player1: 'Player 1',
-                player2: 'Player 2',
+                player1: 'player1',
+                player2: 'player2',
                 color:[color1, color2],
                 difficulty: null
             }
@@ -45,7 +45,7 @@ const Title = (() => {
         }
         closeDialog(dial)
         return {
-            player1: 'Player 1',
+            player1: 'player1',
             player2: 'Bot',
             color:[color1, color2],
             difficulty

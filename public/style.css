@@ -363,13 +363,15 @@ background-color: #f8534e;
   flex-direction: column;
   gap: 1rem;
 }
-.player-side > .underline{
+.underline{
   width: 0;
-  height: 2px;
+  height: 5px;
   display: block;
   background-color: #ffffff;
 }
-
+.right-a{
+  text-align: right;
+}
 .clock-cont{
   max-width: 119px;
   max-height: 60px;
@@ -407,6 +409,9 @@ background-color: #f8534e;
 }
 .cell-Yellow{
   background-color: #79AC78;
+}
+.disabled{
+  pointer-events: none;
 }
 @media (max-width : 1000px) {
   .board{
@@ -463,14 +468,13 @@ background-color: #f8534e;
     cursor: pointer;
   }
   .drop-content{
-    /* display: none; */
+    display: none;
     position: absolute;
     background-color: rgb(112, 223, 112);
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
     padding: 1rem 1.5rem;
     right: 1rem;
-    display: flex;
     flex-direction: column;
     gap: 1rem;
     text-align: center;

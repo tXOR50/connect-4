@@ -18,11 +18,12 @@ const DOMtitle = () => {
         player2ColDis: () => document.querySelector('[for="p2col"]'),
         difficulty: () => document.querySelectorAll('[name="dif"]'),
         getCells: () => document.querySelectorAll('.cell'),
+        getBoard: () => document.querySelectorAll('.board'),
     }
 }
 
 const TitleScreenController = (() => {
-    const {titleCont, aiBtn, mulBtn, dialog, closeDialBtn, submitBtn, player2ColCont, difCont, dialTitle, player2Col, player1Col, player1ColDis, player2ColDis, difficulty, getCells} = DOMtitle()
+    const {titleCont, aiBtn, mulBtn, dialog, closeDialBtn, submitBtn, player2ColCont, difCont, dialTitle, player2Col, player1Col, player1ColDis, player2ColDis, difficulty, getCells, getBoard} = DOMtitle()
     let gameData
 
     aiBtn.addEventListener('click', () => Title.openDialog(dialog, true, difCont, player2ColCont, dialTitle))
@@ -32,7 +33,7 @@ const TitleScreenController = (() => {
     player2Col().addEventListener('click', () => Title.changeDis(player1Col, player2Col, player1ColDis, player2ColDis, false))
     submitBtn.addEventListener('click', (e) => {
         gameData = Title.getData(player1Col, difficulty, difCont, dialog, e)
-        GameScreen.init(titleCont, getCells, gameData)
+        GameScreen.init(titleCont, getCells, gameData, getBoard)
     })
     return{gameData}
 })()

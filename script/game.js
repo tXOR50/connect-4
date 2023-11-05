@@ -144,12 +144,15 @@ export const GameScreen = (() => {
         document.querySelector('.board-cont').append(fragment)
     }
     const terminateBoard = () => {
-        const board = document.querySelector('.board')
-        board.remove()
+        const board = () => document.querySelector('.board')
+        if (board()) {
+            board().remove()
+        }
     }
-    const timer = () => {
+    const timerDisplay = () => {
         let countDown = 19
         const clock = document.querySelector('.clock')
+        const getTime = () => document.querySelector('.clock').textContent
         let clockInterval
         const startTimer = () => {
             const resetTimer = () => {
@@ -163,13 +166,53 @@ export const GameScreen = (() => {
                 }
                 countDown--
             }, 1000);
-            return {countDown, resetTimer}
+            return {resetTimer}
         }
         const pauseTimer = () => {
             clearInterval(clockInterval)
         }
-        return{startTimer, pauseTimer}
+        return{startTimer, pauseTimer, getTime}
     }
+
+    const playerTurnDis = () => {
+        const displayUnderline = (turn) => {
+            let underline = document.querySelector(`.${turn}-cont > .underline`)
+            underline.classList.add('right-a')
+            let count = 0
+            let interval = setInterval(() => {
+                underline.style.width = `${count}px`
+                count += 5
+                if (count > 120) {
+                    clearInterval(interval)
+                }
+            }, 10);
+        }
+        const clearUnderline = (turn) => {
+            let underline = document.querySelector(`.${turn}-cont > .underline`)
+            underline.classList.remove('right-a')
+            let count = 120
+            let interval = setInterval(() => {
+                underline.style.width = `${count}px`
+                count -= 5
+                if (count < 0) {
+                    clearInterval(interval)
+                }
+            }, 10);
+        }
+        const fClearUnderline = (turn) => {
+            let underline = document.querySelector(`.${turn}-cont > .underline`)
+            underline.style.width = '0px'
+        }
+        return{displayUnderline, clearUnderline, fClearUnderline}
+    }
+
+    const disableBoard = () => {
+        document.querySelector('.board').classList.add('disabled')
+    }
+    const enableBoard = () => {
+        document.querySelector('.board').classList.remove('disabled')
+    }
+    
     const gameNav = (cells, Time) => {
         const homes = document.querySelector('.home-s')
         const resets = document.querySelector('.reset-s')
@@ -182,6 +225,9 @@ export const GameScreen = (() => {
             Time.pauseTimer()
             Time.startTimer().resetTimer()
             GameBoard.resetBoard()
+            playerTurnDis().fClearUnderline('player2')
+            playerTurnDis().fClearUnderline('player1')
+            playerTurnDis().displayUnderline('player1')
             cells.forEach(cell => {
                 cell.classList.remove('cell-Red')
                 cell.classList.remove('cell-Yellow')
@@ -194,54 +240,85 @@ export const GameScreen = (() => {
             mainHome.style.display = 'grid'
             terminateBoard()
         }
-        const pauseScreen = (pus) => {
-            if(pus.classList.contains('fa-pause')){
-                console.log('pause')
+        const pauseScreenSide = () => {
+            if(pauses.classList.contains('fa-pause')){
+                disableBoard()
                 Time.pauseTimer()
-            }else if(pus.classList.contains('fa-play')){
-                console.log('play')
+            }else if(pauses.classList.contains('fa-play')){
+                enableBoard()
                 Time.startTimer()
             }
-            pus.classList.toggle('fa-pause')
-            pus.classList.toggle('fa-play')
+            pauses.classList.toggle('fa-pause')
+            pauses.classList.toggle('fa-play')
         }
+        const pauseScreen = () => {
+            const dropContent = document.querySelector('.drop-content')
+            if (dropContent.style.display === 'flex') {
+                dropContent.style.display = 'none'
+                Time.startTimer()
+                enableBoard()
+                return
+            }
+            dropContent.style.display = 'flex'
+            disableBoard()
+            Time.pauseTimer()
+        }
+
         home.addEventListener('click', backHome)
         reset.addEventListener('click', resetScreenBoard)
-        pause.addEventListener('click', () => pauseScreen(pause))
+        pause.addEventListener('click', pauseScreen)
         homes.addEventListener('click', backHome)
         resets.addEventListener('click', resetScreenBoard)
-        pauses.addEventListener('click', () => pauseScreen(pauses))
+        pauses.addEventListener('click', pauseScreenSide)
     }
 
     const init = (titleCont, getCells, gameData) => {
         displayGame(titleCont)
         createBoard()
-        
         const cellEventHandler = (() => {
             const cells = getCells()
             const Game = GameController.game(gameData)
-            const Time = timer()
-            const GameNav = gameNav(cells, Time)
+            const Time = timerDisplay()
+            const playerTurnAnimation = playerTurnDis()
+            const GameNav = gameNav(cells, Time, disableBoard, enableBoard)
+            
+            playerTurnAnimation.displayUnderline('player1')
             Time.startTimer()
-
+            
             const endGame = () => {console.log('WON')}
-
-            const cellClickHandler = (e) => {
-                let col = e.target.dataset.col
-                let game = Game.play(col)
+            const addColor = (col, game) => {
                 let cell = document.querySelector(`[data-col="${col}"][data-row="${game.row}"]`)
                 cell.classList.add(`cell-${game.playerTurn.color}`)
-                let boardy = []
-                for (let i = 0; i < 6; i++) {
-                    boardy[i] = []
-                    for (let j = 0; j < 7; j++) {
-                        boardy[i].push(GameBoard.getBoard()[i][j].getValue())
+            }
+            const turnAnimation = (game) => {
+                let playerTurnBefore = game.playerTurn.player === 'player1' ? 'player2' : 'player1'
+                playerTurnAnimation.clearUnderline(playerTurnBefore)
+                playerTurnAnimation.displayUnderline(game.playerTurn.player)
+                Time.pauseTimer()
+                Time.startTimer().resetTimer()
+            }
+            const timeOutHandler = (() => {
+                const timeOutInterval = setInterval(() => {
+                    if (Time.getTime() === '00:00') {
+                        const col = Math.floor(Math.random() * 7);
+                        const game = Game.play(col);
+                        addColor(col,game);
+                        if(game.isWin){
+                            endGame();
+                        }
+                        turnAnimation(game);
                     }
-                }
-                console.log(boardy)
+                }, 1000);
+                return{timeOutInterval}
+            })()
+            const cellClickHandler = (e) => {
+                const col = e.target.dataset.col
+                const game = Game.play(col)
+                addColor(col,game)
                 if(game.isWin){
                     endGame()
                 }
+                turnAnimation(game)
             }
             cells.forEach(cell => {
                 cell.addEventListener('click', (e => cellClickHandler(e)))
