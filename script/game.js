@@ -1,3 +1,5 @@
+const ROWS = 6
+const COLS = 7
 export const GameBoard = (() => {
     const cell = () => {
         let value = '0'
@@ -6,9 +8,9 @@ export const GameBoard = (() => {
         return{addMark, getValue}
     }
     const Board = []
-    for(let i = 0; i < 6; i++){
+    for(let i = 0; i < ROWS; i++){
         Board[i] =  []
-        for (let j = 0; j < 7; j++) {
+        for (let j = 0; j < COLS; j++) {
             Board[i].push(cell())
         }
     }
@@ -30,8 +32,8 @@ export const GameBoard = (() => {
     }
     const getBoard = () => Board
     const resetBoard = () => {
-        for(let i = 0; i < 6; i++){
-            for (let j = 0; j < 7; j++) {
+        for(let i = 0; i < ROWS; i++){
+            for (let j = 0; j < COLS; j++) {
                 Board[i][j].addMark('0')
             }
         }
@@ -60,49 +62,49 @@ export const GameController = (() => {
     }
     const checkWin = () => {
         // Check for Horizontal win
-        for(let i = 0; i < 6; i++){
-            for(let j = 0; j < 4; j++){
-                if (GameBoard.getBoard()[i][j].getValue() !== '0' && 
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i][j + 1].getValue() && 
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i][j + 2].getValue() &&
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i][j + 3].getValue()) {
-                        return GameBoard.getBoard()[i][j].getValue()
+        for(let row = 0; row < ROWS; row++){
+            for(let col = 0; col < COLS - 3; col++){
+                if (GameBoard.getBoard()[row][col].getValue() !== '0' && 
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row][col + 1].getValue() && 
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row][col + 2].getValue() &&
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row][col + 3].getValue()) {
+                        return GameBoard.getBoard()[row][col].getValue()
                     }
             }
         }
 
         // Check for Vertical win
-        for(let i = 0; i < 3; i++){
-            for(let j = 0; j < 6; j++){
-                if (GameBoard.getBoard()[i][j].getValue() !== '0' && 
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i + 1][j].getValue() && 
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i + 2][j].getValue() &&
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i + 3][j].getValue()) {
-                        return GameBoard.getBoard()[i][j].getValue()
+        for(let col = 0; col < COLS; col++){
+            for(let row = 0; row < ROWS - 3; row++){
+                if (GameBoard.getBoard()[row][col].getValue() !== '0' && 
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 1][col].getValue() && 
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 2][col].getValue() &&
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 3][col].getValue()) {
+                        return GameBoard.getBoard()[row][col].getValue()
                     }
             }
         }
 
-        // Check for Diagonal left - right win
-        for(let i = 0; i < 3; i++){
-            for(let j = 0; j < 3; j++){
-                if (GameBoard.getBoard()[i][j].getValue() !== '0' && 
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i + 1][j + 1].getValue() && 
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i + 2][j + 2].getValue() &&
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i + 3][j + 3].getValue()) {
-                        return GameBoard.getBoard()[i][j].getValue()
+        // Check for Diagonal Bleft - Tright win
+        for(let row = 0; row < ROWS - 3; row++){
+            for(let col = 0; col <= COLS - 3; col++){
+                if (GameBoard.getBoard()[row][col].getValue() !== '0' && 
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 1][col + 1].getValue() && 
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 2][col + 2].getValue() &&
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 3][col + 3].getValue()) {
+                        return GameBoard.getBoard()[row][col].getValue()
                     }
             }
         }
 
-        // Check for Diagonal right - left win
-        for(let i = 3; i < 6; i++){
-            for(let j = 0; j < 3; j++){
-                if (GameBoard.getBoard()[i][j].getValue() !== '0' && 
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i - 1][j + 1].getValue() && 
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i - 2][j + 2].getValue() &&
-                    GameBoard.getBoard()[i][j].getValue() === GameBoard.getBoard()[i - 3][j + 3].getValue()) {
-                        return GameBoard.getBoard()[i][j].getValue()
+        // Check for Diagonal Bright - Tleft win
+        for(let row = 3; row < ROWS; row++){
+            for(let col = 0; col < COLS - 3; col++){
+                if (GameBoard.getBoard()[row][col].getValue() !== '0' && 
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row - 1][col + 1].getValue() && 
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row - 2][col + 2].getValue() &&
+                    GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row - 3][col + 3].getValue()) {
+                        return GameBoard.getBoard()[row][col].getValue()
                     }
             }
         }
