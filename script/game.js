@@ -228,22 +228,26 @@ export const GameScreen = (() => {
         document.querySelector('.board').classList.remove('disabled')
     }
     
-    const gameNav = (cells, Time) => {
-        const homes = document.querySelector('.home-s')
-        const resets = document.querySelector('.reset-s')
+    const gameNav = (() => {
         const pauses = document.querySelector('.pause-s')
+        const homesCont = document.querySelector('.n-home-s')
+        const resetsCont = document.querySelector('.n-reset-s')
+        const pausesCont = document.querySelector('.n-pause-s')
         const home = document.querySelector('.home')
         const reset = document.querySelector('.reset')
         const pause = document.querySelector('.pause')
+        const Time = timerDisplay()
+        const cells = document.querySelectorAll('.cell')
 
         const resetScreenBoard = (popUp) => {
             enableBoard()
-            if (!popUp) {
+            if (popUp) {
+                Time.startTimer().resetTimer()
+                Time.pauseTimer()
+            }else{
                 Time.pauseTimer()
                 Time.startTimer().resetTimer()
             }
-            Time.startTimer().resetTimer()
-            Time.pauseTimer()
             GameBoard.resetBoard()
             playerTurnDis().fClearUnderline('player2')
             playerTurnDis().fClearUnderline('player1')
@@ -258,12 +262,15 @@ export const GameScreen = (() => {
             const mainHome = document.querySelector('.main-home')
             const dropContent = document.querySelector('.drop-content')
             mainGame.style.display = 'none'
-            dropContent.style.display = 'none'
+            dropContent.classList.add('display-none')
+            dropContent.classList.remove('display-flex')
             mainHome.style.display = 'grid'
             terminateBoard()
             GameBoard.resetBoard()
+            Time.pauseTimer()
         }
         const pauseScreenSide = () => {
+            console.log('hola')
             if(pauses.classList.contains('fa-pause')){
                 disableBoard()
                 Time.pauseTimer()
@@ -276,24 +283,30 @@ export const GameScreen = (() => {
         }
         const pauseScreen = () => {
             const dropContent = document.querySelector('.drop-content')
-            if (dropContent.style.display === 'flex') {
-                dropContent.style.display = 'none'
+            console.log(dropContent.classList)
+            console.log(dropContent)
+            if (dropContent.classList.contains('display-none')) {
+                dropContent.classList.add('display-none')
+                dropContent.classList.remove('display-flex')
                 Time.startTimer()
                 enableBoard()
-                return
             }
-            dropContent.style.display = 'flex'
-            disableBoard()
-            Time.pauseTimer()
+            else{
+                dropContent.classList.add('display-flex')
+                dropContent.classList.remove('display-none')
+                disableBoard()
+                Time.pauseTimer()
+            }
+
         }
 
         home.addEventListener('click', backHome)
         reset.addEventListener('click', () => resetScreenBoard(true))
         pause.addEventListener('click', pauseScreen)
-        homes.addEventListener('click', backHome)
-        resets.addEventListener('click', resetScreenBoard)
-        pauses.addEventListener('click', pauseScreenSide)
-    }
+        homesCont.addEventListener('click', backHome)
+        resetsCont.addEventListener('click', resetScreenBoard)
+        pausesCont.addEventListener('click', pauseScreenSide)
+    })()
 
     const init = (titleCont, getCells, gameData) => {
         displayGame(titleCont)
@@ -303,10 +316,9 @@ export const GameScreen = (() => {
             const Game = GameController.game(gameData)
             const Time = timerDisplay()
             const playerTurnAnimation = playerTurnDis()
-            const GameNav = gameNav(cells, Time, disableBoard, enableBoard)
             
             playerTurnAnimation.displayUnderline('player1')
-            Time.startTimer()
+            Time.startTimer().resetTimer()
             
             const endGame = (cells) => {
                 for (let i = 0; i < 4; i++) {

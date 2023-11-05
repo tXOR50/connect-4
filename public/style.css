@@ -427,6 +427,12 @@ background-color: #f8534e;
 .disabled{
   pointer-events: none;
 }
+.menu > .display-none{
+  display: none;
+}
+.menu > .display-flex{
+  display: flex;
+}
 @media (max-width : 1000px) {
   .board{
       grid-template-columns: repeat(7, 40px);
