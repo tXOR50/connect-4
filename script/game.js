@@ -132,7 +132,8 @@ export const GameScreen = (() => {
         document.querySelector('.main-game').style.display = 'grid'
     }
     const createBoard = () => {
-        let fragment = document.createDocumentFragment()
+        let fragment = document.createElement('div')
+        fragment.classList.add('board')
         for(let i = 0; i < 42; i++){
             let cell = document.createElement('div')
             cell.classList.add('cell')
@@ -140,26 +141,46 @@ export const GameScreen = (() => {
             cell.setAttribute('data-row', Math.floor(i / 7))
             fragment.append(cell)
         }
-        document.querySelector('.board').append(fragment)
+        document.querySelector('.board-cont').append(fragment)
+    }
+    const terminateBoard = () => {
+        const board = document.querySelector('.board')
+        board.remove()
     }
     const timer = () => {
         let countDown = 19
         const clock = document.querySelector('.clock')
-        const clockInterval = setInterval(() => {
-            clock.textContent = countDown > 9 ? `00:${countDown}` : `00:0${countDown}` 
-            if (!countDown) {
-                clearInterval(clockInterval)
+        let clockInterval
+        const startTimer = () => {
+            const resetTimer = () => {
+                clock.textContent = '00:20'
+                countDown = 19
             }
-            countDown--
-        }, 1000);
-        return {clockInterval, countDown}
+            clockInterval = setInterval(() => {
+                clock.textContent = countDown > 9 ? `00:${countDown}` : `00:0${countDown}` 
+                if (!countDown) {
+                    clearInterval(clockInterval)
+                }
+                countDown--
+            }, 1000);
+            return {countDown, resetTimer}
+        }
+        const pauseTimer = () => {
+            clearInterval(clockInterval)
+        }
+        return{startTimer, pauseTimer}
     }
     const gameNav = (cells, Time) => {
+        const homes = document.querySelector('.home-s')
+        const resets = document.querySelector('.reset-s')
+        const pauses = document.querySelector('.pause-s')
         const home = document.querySelector('.home')
         const reset = document.querySelector('.reset')
         const pause = document.querySelector('.pause')
 
         const resetScreenBoard = () => {
+            Time.pauseTimer()
+            Time.startTimer().resetTimer()
             GameBoard.resetBoard()
             cells.forEach(cell => {
                 cell.classList.remove('cell-Red')
@@ -167,32 +188,43 @@ export const GameScreen = (() => {
             })
         }
         const backHome = () => {
-            resetScreenBoard()
             const mainGame = document.querySelector('.main-game')
             const mainHome = document.querySelector('.main-home')
             mainGame.style.display = 'none'
             mainHome.style.display = 'grid'
+            terminateBoard()
         }
-        const pauseScreen = () => {
-            if(pause.classList.contains('fa-pause')){
-                
+        const pauseScreen = (pus) => {
+            if(pus.classList.contains('fa-pause')){
+                console.log('pause')
+                Time.pauseTimer()
+            }else if(pus.classList.contains('fa-play')){
+                console.log('play')
+                Time.startTimer()
             }
+            pus.classList.toggle('fa-pause')
+            pus.classList.toggle('fa-play')
         }
+        home.addEventListener('click', backHome)
+        reset.addEventListener('click', resetScreenBoard)
+        pause.addEventListener('click', () => pauseScreen(pause))
+        homes.addEventListener('click', backHome)
+        resets.addEventListener('click', resetScreenBoard)
+        pauses.addEventListener('click', () => pauseScreen(pauses))
     }
 
     const init = (titleCont, getCells, gameData) => {
         displayGame(titleCont)
         createBoard()
+        
         const cellEventHandler = (() => {
             const cells = getCells()
             const Game = GameController.game(gameData)
             const Time = timer()
             const GameNav = gameNav(cells, Time)
+            Time.startTimer()
 
             const endGame = () => {console.log('WON')}
-            const changeTurnDis = () => {
-
-            }
 
             const cellClickHandler = (e) => {
                 let col = e.target.dataset.col

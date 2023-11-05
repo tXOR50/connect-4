@@ -437,7 +437,7 @@ background-color: #f8534e;
   .sidebar{
       display: none;
   }
-  .board{
+  .board-cont{
     grid-row-start: 1;   
   } 
   .player-side{
@@ -487,8 +487,7 @@ background-color: #f8534e;
 @media (max-width : 500px) {
   .board{
       grid-template-columns: repeat(7, 35px);
-      grid-template-rows: repeat(6, 35px); 
-      grid-row-start: 1;   
+      grid-template-rows: repeat(6, 35px);   
   }
   .cell{
       max-width: 40px;
