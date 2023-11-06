@@ -6,7 +6,7 @@ const DOMtitle = () => {
         titleCont: document.querySelector('.main-home'),
         mulBtn: document.querySelector('.mul-btn'),
         aiBtn: document.querySelector('.ai-btn'),
-        dialog:  document.querySelector('dialog'),
+        titleDialog:  document.querySelector('.title-dial-cont'),
         closeDialBtn:  document.querySelector('.close-btn'),
         submitBtn:  document.querySelector('#sbt-btn'),
         player2ColCont:  document.querySelector('#t-s-cont-p2'),
@@ -23,16 +23,16 @@ const DOMtitle = () => {
 }
 
 const TitleScreenController = (() => {
-    const {titleCont, aiBtn, mulBtn, dialog, closeDialBtn, submitBtn, player2ColCont, difCont, dialTitle, player2Col, player1Col, player1ColDis, player2ColDis, difficulty, getCells, getBoard} = DOMtitle()
+    const {titleCont, aiBtn, mulBtn, titleDialog, closeDialBtn, submitBtn, player2ColCont, difCont, dialTitle, player2Col, player1Col, player1ColDis, player2ColDis, difficulty, getCells, getBoard} = DOMtitle()
     let gameData
 
-    aiBtn.addEventListener('click', () => Title.openDialog(dialog, true, difCont, player2ColCont, dialTitle))
-    mulBtn.addEventListener('click', () => Title.openDialog(dialog, false, difCont, player2ColCont, dialTitle))
-    closeDialBtn.addEventListener('click', () => Title.closeDialog(dialog))
+    aiBtn.addEventListener('click', () => Title.openDialog(titleDialog, true, difCont, player2ColCont, dialTitle))
+    mulBtn.addEventListener('click', () => Title.openDialog(titleDialog, false, difCont, player2ColCont, dialTitle))
+    closeDialBtn.addEventListener('click', () => Title.closeDialog(titleDialog))
     player1Col().addEventListener('click', () => Title.changeDis(player1Col, player2Col, player1ColDis, player2ColDis, true))
     player2Col().addEventListener('click', () => Title.changeDis(player1Col, player2Col, player1ColDis, player2ColDis, false))
     submitBtn.addEventListener('click', (e) => {
-        gameData = Title.getData(player1Col, difficulty, difCont, dialog, e)
+        gameData = Title.getData(player1Col, difficulty, difCont, titleDialog, e)
         GameScreen.init(titleCont, getCells, gameData, getBoard)
     })
     return{gameData}
