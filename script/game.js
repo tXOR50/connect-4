@@ -280,6 +280,7 @@ export const GameScreen = (() => {
             cells().forEach(cell => {
                 cell.classList.remove('cell-Red')
                 cell.classList.remove('cell-Green')
+                cell.classList.remove('cell-win')
             })
         }
         const backHome = () => {
