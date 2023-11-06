@@ -132,7 +132,14 @@ export const GameController = (() => {
             playerTurn = changeTurn(playerTurn, Player)
             let winCell = checkWin()
             if (winCell) {
-                return {row, playerTurn, winCell}
+                let player1win 
+                if (playerTurn === Player[1]) {
+                    playerTurn = changeTurn(playerTurn, Player)
+                    player1win = true
+                    return {row, playerTurn, winCell, player1win}
+                }
+                player1win = false
+                return {row, playerTurn, winCell, player1win}
             }
             return {row, playerTurn}
         }
@@ -192,7 +199,8 @@ export const GameScreen = (() => {
     const playerTurnDis = () => {
         const displayUnderline = (turn) => {
             let underline = document.querySelector(`.${turn}-cont > .underline`)
-            underline.classList.add('right-a')
+            underline.classList.remove(`win-Red`)
+            underline.classList.remove(`win-Green`)
             let count = 0
             let interval = setInterval(() => {
                 underline.style.width = `${count}px`
@@ -204,7 +212,6 @@ export const GameScreen = (() => {
         }
         const clearUnderline = (turn) => {
             let underline = document.querySelector(`.${turn}-cont > .underline`)
-            underline.classList.remove('right-a')
             let count = 120
             let interval = setInterval(() => {
                 underline.style.width = `${count}px`
@@ -218,7 +225,19 @@ export const GameScreen = (() => {
             let underline = document.querySelector(`.${turn}-cont > .underline`)
             underline.style.width = '0px'
         }
-        return{displayUnderline, clearUnderline, fClearUnderline}
+        const displayWinner = (turn, color) => {
+            let underline = document.querySelector(`.${turn}-cont > .underline`)
+            underline.classList.add(`win-${color}`)
+            let count = 0
+            let interval = setInterval(() => {
+                underline.style.width = `${count}px`
+                count += 5
+                if (count > 120) {
+                    clearInterval(interval)
+                }
+            }, 10);
+        }
+        return{displayUnderline, clearUnderline, fClearUnderline, displayWinner}
     }
 
     const disableBoard = () => {
@@ -328,16 +347,26 @@ export const GameScreen = (() => {
             playerTurnAnimation.displayUnderline('player1')
             Time.startTimer().resetTimer()
             
-            const endGame = (cells) => {
+            const endGame = (game) => {
                 for (let i = 0; i < 4; i++) {
-                    let cell = document.querySelector(`[data-col="${cells.cols[i]}"][data-row="${cells.rows[i]}"]`)
+                    let cell = document.querySelector(`[data-col="${game.winCell.cols[i]}"][data-row="${game.winCell.rows[i]}"]`)
                     cell.classList.add('cell-win')
+                }
+                playerTurnDis().fClearUnderline('player2')
+                playerTurnDis().fClearUnderline('player1')
+                if (game.player1win) {
+                    playerTurnDis().displayWinner(`${game.playerTurn.player}`, `${game.playerTurn.color}`)
+                }else{
+                    playerTurnDis().displayWinner(`${game.playerTurn.player === 'player1' ? 'player2' : 'player1'}`, `${game.playerTurn.color === 'Red' ? 'Green' : 'Red'}`)
                 }
                 disableBoard()
                 Time.pauseTimer()
             }
-            const addColor = (col, game) => {
+            const addColor = (col, game, win) => {
                 let cell = document.querySelector(`[data-col="${col}"][data-row="${game.row}"]`)
+                if (win) {
+                    cell.classList.add(`cell-${game.playerTurn.color}`)
+                }
                 let playerColorBefore = game.playerTurn.color === 'Red' ? 'Green' : 'Red'
                 cell.classList.add(`cell-${playerColorBefore}`)
             }
@@ -354,9 +383,13 @@ export const GameScreen = (() => {
                         if (game.unavailRow) {
                             return 0
                         }
-                        addColor(col,game);
+                        if (game.player1win) {
+                            addColor(col,game,true);
+                        }else {
+                            addColor(col,game,false)
+                        }
                         if(game.winCell){
-                            return endGame(game.winCell)
+                            return endGame(game)
                         }
                         turnAnimation(game);
                         Time.pauseTimer()
@@ -371,9 +404,13 @@ export const GameScreen = (() => {
                 if (game.unavailRow) {
                     return 0
                 }
-                addColor(col,game)
+                if (game.player1win) {
+                    addColor(col,game,true);
+                }else {
+                    addColor(col,game,false)
+                }
                 if(game.winCell){
-                    return endGame(game.winCell)
+                    return endGame(game)
                 }
                 turnAnimation(game)
                 Time.pauseTimer()

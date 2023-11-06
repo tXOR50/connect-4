@@ -391,9 +391,6 @@ background-color: #f8534e;
   display: block;
   background-color: #ffffff;
 }
-.right-a{
-  text-align: right;
-}
 .clock-cont{
   max-width: 119px;
   max-height: 60px;
@@ -430,6 +427,12 @@ background-color: #f8534e;
   background-color: #f8534e;
 }
 .cell-Green{
+  background-color: #79AC78;
+}
+.win-Red{
+  background-color: #f8534e;
+}
+.win-Green{
   background-color: #79AC78;
 }
 .cell-win{
