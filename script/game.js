@@ -279,7 +279,7 @@ export const GameScreen = (() => {
             playerTurnDis().displayUnderline('player1')
             cells().forEach(cell => {
                 cell.classList.remove('cell-Red')
-                cell.classList.remove('cell-Yellow')
+                cell.classList.remove('cell-Green')
             })
         }
         const backHome = () => {
@@ -337,7 +337,8 @@ export const GameScreen = (() => {
             }
             const addColor = (col, game) => {
                 let cell = document.querySelector(`[data-col="${col}"][data-row="${game.row}"]`)
-                cell.classList.add(`cell-${game.playerTurn.color}`)
+                let playerColorBefore = game.playerTurn.color === 'Red' ? 'Green' : 'Red'
+                cell.classList.add(`cell-${playerColorBefore}`)
             }
             const turnAnimation = (game) => {
                 let playerTurnBefore = game.playerTurn.player === 'player1' ? 'player2' : 'player1'

@@ -19,14 +19,14 @@ const Title = (() => {
     const changeDis = (p1, p2, colDis1, colDis2, isP1) => {
         if(isP1){p2().checked = !p1().checked;}
         else {p1().checked = !p2().checked;}
-        colDis1().textContent = colDis1().textContent == 'Red' ? 'Yellow' : 'Red'
-        colDis2().textContent = colDis2().textContent == 'Yellow' ? 'Red' : 'Yellow'
+        colDis1().textContent = colDis1().textContent == 'Red' ? 'Green' : 'Red'
+        colDis2().textContent = colDis2().textContent == 'Green' ? 'Red' : 'Green'
     }
 
     const getData = (player1Col, getDifficulty, difCont, dial, event) => {
         event.preventDefault()
-        let color1 = player1Col().checked ? 'Red' : 'Yellow'
-        let color2 = player1Col().checked ? 'Yellow' : 'Red'
+        let color1 = player1Col().checked ? 'Red' : 'Green'
+        let color2 = player1Col().checked ? 'Green' : 'Red'
         let difficulty = getDifficulty()
         if(difCont.style.display === 'none'){
             closeDialog(dial)

@@ -257,7 +257,7 @@ color: #2c2f2c;
   left: 0px;
   right: 0px;
   bottom: 0px;
-  background-color: #e9e76d;
+  background-color: #79AC78;
   transition: background-color 400ms;
   cursor: pointer;
   border-radius: 4rem;
@@ -429,7 +429,7 @@ background-color: #f8534e;
 .cell-Red{
   background-color: #f8534e;
 }
-.cell-Yellow{
+.cell-Green{
   background-color: #79AC78;
 }
 .cell-win{
