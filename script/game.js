@@ -34,11 +34,25 @@ export const GameBoard = (() => {
     const resetBoard = () => {
         for(let i = 0; i < ROWS; i++){
             for (let j = 0; j < COLS; j++) {
-                Board[i][j].addMark('0')
+                GameBoard.getBoard()[i][j].addMark('0')
             }
         }
     }
-    return{markCell,getBoard,resetBoard}
+    const getEmptyCells = () => {
+        let emptyCells = []
+        for(let i = 0; i < ROWS; i++){
+            for (let j = 0; j < COLS; j++) {
+                if (GameBoard.getBoard()[i][j].getValue() === '0') {
+                    emptyCells.push({
+                        row: i,
+                        col : j
+                    })
+                }
+            }
+        }
+        return emptyCells
+    }
+    return{markCell,getBoard,resetBoard, getEmptyCells}
 })()
 
 export const GameController = (() => {
@@ -70,7 +84,9 @@ export const GameController = (() => {
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row][col + 3].getValue()) {
                         return {
                             rows: [row, row, row, row],
-                            cols: [col, col+1, col+2, col+3]
+                            cols: [col, col+1, col+2, col+3],
+                            winner: GameBoard.getBoard()[row][col].getValue()
+
                         }
                     }
             }
@@ -85,7 +101,8 @@ export const GameController = (() => {
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 3][col].getValue()) {
                         return {
                             rows: [row, row+1, row+2, row+3],
-                            cols: [col, col, col, col]
+                            cols: [col, col, col, col],
+                            winner: GameBoard.getBoard()[row][col].getValue()
                         }
                     }
             }
@@ -100,7 +117,8 @@ export const GameController = (() => {
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row + 3][col + 3].getValue()) {
                         return {
                             rows: [row, row+1, row+2, row+3],
-                            cols: [col, col+1, col+2, col+3]
+                            cols: [col, col+1, col+2, col+3],
+                            winner: GameBoard.getBoard()[row][col].getValue()
                         }
                     }
             }
@@ -115,7 +133,8 @@ export const GameController = (() => {
                     GameBoard.getBoard()[row][col].getValue() === GameBoard.getBoard()[row - 3][col + 3].getValue()) {
                         return {
                             rows: [row, row-1, row-2, row-3],
-                            cols: [col, col+1, col+2, col+3]
+                            cols: [col, col+1, col+2, col+3],
+                            winner: GameBoard.getBoard()[row][col].getValue()
                         }
                     }
             }
@@ -146,6 +165,12 @@ export const GameController = (() => {
         return{play}
     }
     return {game}
+})()
+
+const Bot = (() => {
+    const minimax = (currBoard, turn) => {
+        const availableCells = GameBoard.getEmptyCells()
+    }
 })()
 
 export const GameScreen = (() => {
@@ -366,9 +391,10 @@ export const GameScreen = (() => {
                 let cell = document.querySelector(`[data-col="${col}"][data-row="${game.row}"]`)
                 if (win) {
                     cell.classList.add(`cell-${game.playerTurn.color}`)
+                }else{
+                    let playerColorBefore = game.playerTurn.color === 'Red' ? 'Green' : 'Red'
+                    cell.classList.add(`cell-${playerColorBefore}`)
                 }
-                let playerColorBefore = game.playerTurn.color === 'Red' ? 'Green' : 'Red'
-                cell.classList.add(`cell-${playerColorBefore}`)
             }
             const turnAnimation = (game) => {
                 let playerTurnBefore = game.playerTurn.player === 'player1' ? 'player2' : 'player1'
