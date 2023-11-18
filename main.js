@@ -1,6 +1,7 @@
 import Title from './script/title.js'
-import {GameBoard, GameController, GameScreen} from './script/game.js'
+import {GameScreen} from './script/game.js'
 
+console.log('hola')
 const DOMtitle = () => {
     return{
         titleCont: document.querySelector('.main-home'),
