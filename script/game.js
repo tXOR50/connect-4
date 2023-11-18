@@ -40,16 +40,14 @@ export const GameBoard = (() => {
     }
     const getEmptyCells = () => {
         let emptyCells = []
-        for(let i = 0; i < ROWS; i++){
             for (let j = 0; j < COLS; j++) {
-                if (GameBoard.getBoard()[i][j].getValue() === '0') {
+                if (checkRow(j) !== -1) {
                     emptyCells.push({
-                        row: i,
+                        row: checkRow(j),
                         col : j
                     })
                 }
             }
-        }
         return emptyCells
     }
     return{markCell,getBoard,resetBoard, getEmptyCells}
@@ -142,6 +140,7 @@ export const GameController = (() => {
 
         return 0
     }
+    
     const game = (gameData) => {
         const Player = getPlayer(gameData)
         let playerTurn = getPlayerTurn(Player)
@@ -164,13 +163,7 @@ export const GameController = (() => {
         }
         return{play}
     }
-    return {game}
-})()
-
-const Bot = (() => {
-    const minimax = (currBoard, turn) => {
-        const availableCells = GameBoard.getEmptyCells()
-    }
+    return {game, checkWin}
 })()
 
 export const GameScreen = (() => {
