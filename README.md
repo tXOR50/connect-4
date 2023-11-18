@@ -5,8 +5,8 @@
 ![image](https://github.com/gladd50/connect-4/assets/108773064/f771d888-5953-4efb-876a-3bcecd0ce5df)
 ![image](https://github.com/gladd50/connect-4/assets/108773064/46988cd8-6eb7-4c3f-a72f-4e5f754ec65c)
 ### Mobile Version
-![image](https://github.com/gladd50/connect-4/assets/108773064/25229f39-5147-4a82-9397-ac304a61fde6)
-![image](https://github.com/gladd50/connect-4/assets/108773064/6c4678f7-ca3d-4a84-a0bb-e03b4a4be6fc)
+![image](https://github.com/gladd50/connect-4/assets/108773064/ea20aa52-95f7-4088-8b6f-266243c86978)
+![image](https://github.com/gladd50/connect-4/assets/108773064/81781829-2d54-499b-aacb-c10d12657c3f)
 # About
 Connect 4 is a web based game that is built using Vanilla Javascript with vite, it is made by implementing a module pattern and SOLID principle and it's also mobile responsive. __NOTE THAT THIS PROJECT IS STILL ONGOING, SO THERE MIGHT BE SOME FEATURES THAT CAN'T BE ACCESS YET__
 # Ongoing Features
